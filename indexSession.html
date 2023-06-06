@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Storage</title>
+</head>
+<body>
+    <h1 id="text-name">Panji Satria</h1>
+    <h1 id="text-domisili">Jakarta</h1>
+    <form>
+        <input type="text" id="input-name" placeholder="input nama anda">
+        <input type="text" id="input-domisili" placeholder="input domisili anda">
+        <button id="btn-submit">Submit</button>
+    </form>
+    <button id="btn-reset" onclick="handleReset(event)">Reset</button>
+    <script>
+        let btnSubmit = document.getElementById('btn-submit')
+        let inputName = document.getElementById('input-name')
+        let inputDomisili = document.getElementById('input-domisili')
+        let textName = document.getElementById('text-name')
+        let textDomisili = document.getElementById('text-domisili')
+        
+        /** 
+         * Session storage hanya menyimpan ketika sesi berlangsung. ketika browser diclose atau diclose tabnya,
+         * maka data yang tersimpan di session storage akan hilang semua.
+        */
+        function handleReset(event) {
+            event.preventDefault()
+            /** 
+             * sessionStorage.clear() digunakan untuk menghapus seluruh data yang tersimpan di local storage
+            */
+            // sessionStorage.clear()
+            /** 
+             * sessionStorage removeItem digunakan untuk menghapus data spesifik pada key yg disubmit
+            */
+            sessionStorage.removeItem('nama')
+            sessionStorage.removeItem('domisili')
+            textName.innerText = 'Panji Satria'
+            textDomisili.innerText = 'Jakarta'
+            // sessionStorage.removeItem('nama')
+        }
+
+        /** 
+         * getItem digunakan untuk mengakses data yg telah disimpan 
+         * di sessionStorage berdasarkan keynya
+         * 
+         * jika keynya tidak ada di dalam sessionStorage, maka akan
+         * mengembalikan null
+        */
+        let namaStorage = sessionStorage.getItem('nama')
+        let domisiliStorage = sessionStorage.getItem('domisili')
+        console.log(namaStorage, 'ini nama storage');
+        console.log(domisiliStorage, 'ini domisili storage');
+
+        let arrKosong = []
+        if (arrKosong.length) {
+            console.log('array tidak kosong');
+        } else {
+            console.log('array kosong');
+        }
+
+        let stringKosong = ''
+        if (stringKosong) {
+            console.log('string tidak kosong');
+        } else {
+            console.log('string kosong');
+        }
+
+        let valueNol = 0
+        if (valueNol) {
+            console.log('value tidak nol');
+        } else {
+            console.log('value nol');
+        }
+
+        let valueUndefined
+        if (valueUndefined) {
+            console.log('value tidak undefined');
+        } else {
+            console.log('value undefined');
+        }
+
+        let valueNull = null
+        if (valueNull) {
+            console.log('value tidak Null');
+        } else {
+            console.log('value Null');
+        }
+
+        if (namaStorage) {
+            textName.innerText = namaStorage
+        }
+        /** 
+         * jadi ketika data tidak sama dengan 0 atau tidak sama dengan null atau
+         * tidak sama dengan undefined atau tidak sama dengan array length 0 atau 
+         * tidak sama dengan string kosong => bisa dipersingkat menjadi kondisi
+         * panggil variablenya saja
+        */
+        if (domisiliStorage) {
+            textDomisili.innerHTML = domisiliStorage
+        }
+
+        btnSubmit.addEventListener('click', (event) => {
+            event.preventDefault()
+            textName.innerText = inputName.value
+            textDomisili.innerText = inputDomisili.value
+            /**
+             * set item digunakan untuk menyimpan data sementara pada browser
+             * 
+             * apabila diset lagi, data yg lama akan ditimpa dengan data baru, apabila
+             * menggunakan key yang sama
+             * Batasan sessionStorage
+             * Kebanyakan browser hanya menerima maksimal 5MB data.
+             */
+            sessionStorage.setItem('nama', inputName.value)
+            sessionStorage.setItem('domisili', inputDomisili.value)
+        })
+    </script>
+</body>
+</html>
